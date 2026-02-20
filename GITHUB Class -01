@@ -4,3 +4,31 @@ GITHUB Class -01
 TOPIC: GITHUB INTRODUCTION, GITHUB CLONE, PULL, PUSH, FETCH, MERGE & MERGE CONFLICTS
 
 
+
+First we need to get/clone the code from github/central to git/local & then next do commit changes, then do push the code from git/local to 
+github/central
+
+GITHUB COMMANDS
+=================
+
+* git clone github-repo-url                 -----------------------> command to clone/get the code from github to git (central to local)
+* git branches -a                           ---------------------->  command to view list of branches
+* git push origin main(branch-name)         -----------------------> oommand to push the code from git to github (local to central)
+* git pull -----------------------> it is the combination of fetch + merge
+
+difference between 
+* git pull origin main(branch-name) & * git fetch origin main(branch-name)
+
+**Simple one-line interview answer (for a DevOps Engineer with 3.8 years experience):**
+
+👉 **`git fetch origin main`** only downloads the latest changes from the remote `main` branch, while
+    **`git pull origin main`** downloads and immediately merges those changes into my current local branch.
+
+If they ask a follow-up, you can add:
+
+> I usually use `fetch` first in production workflows to review changes before merging.
+
+
+
+
+
