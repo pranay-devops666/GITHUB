@@ -1,3 +1,122 @@
 GITHUB Class -2
 
 TOPIC: GITHUB & BITBUCKET
+
+
+Launch one instance ---------> name: GITHUB ---------> kernerl 6.1--------> t3.micro---------->keypair ------------> MY-SEC-GRP-------->
+--------> 8gb ebs volume------------> launch instance & connect
+
+* yum install git -y
+
+https://github.com/pranay-devops666/microservices-project.git
+
+lets clone this repository through SSH
+
+difference between HTTPS & SSH is 
+
+when we are going the push the code everytime it may ask credentials 
+but in real time the credentials will won't ask to us because we will use SSH in real time
+
+HTTPS  ---------> it may ask credentials every time when we are going to push the code
+SSH    ---------> it won't ask credentials every time when we are going to push the code
+
+for doing through ssh, we need to do generate ssh-key in ec2-instance
+
+when we generate ssh-key in ec2-instance one public key & one private key will occur
+
+now what we will do is taking the public-key and we will put it in github
+
+
+* ssh-keygen        ---------------> command to generate ssh-key in ec2-instance
+after giving the above command ec2-instance one public key & one private key will occur
+it will be present in .ssh folder
+
+[root@ip-172-31-26-214 ~]# ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_rsa
+Your public key has been saved in /root/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:qlMWf55py1Wmvn8T2rQhtJmsKcliaNYkonLanf6dlK4 root@ip-172-31-26-214.ec2.internal
+The key's randomart image is:
++---[RSA 3072]----+
+|                 |
+|                 |
+|                 |
+|      .      .   |
+|       oS   o *  |
+|   . .oo...  X + |
+|  . .o* +o.o= = +|
+|.o...* B *== . +.|
+|oo..BoE.=.+.oo...|
++----[SHA256]-----+
+[root@ip-172-31-26-214 ~]# 
+
+* ll -a        ----------> command to view hidden folders
+[root@ip-172-31-26-214 ~]# ll -a
+total 20
+dr-xr-x---.  3 root root 103 Feb 14 00:08 .
+dr-xr-xr-x. 18 root root 237 Feb 14 00:07 ..
+-rw-r--r--.  1 root root  18 Feb  2  2023 .bash_logout
+-rw-r--r--.  1 root root 141 Feb  2  2023 .bash_profile
+-rw-r--r--.  1 root root 429 Feb  2  2023 .bashrc
+-rw-r--r--.  1 root root 100 Feb  2  2023 .cshrc
+drwx------.  2 root root  61 Feb 20 10:15 .ssh
+-rw-r--r--.  1 root root 129 Feb  2  2023 .tcshrc
+[root@ip-172-31-26-214 ~]# cd .ssh/
+[root@ip-172-31-26-214 .ssh]# ll
+total 12
+-rw-------. 1 root root  563 Feb 20 10:04 authorized_keys
+-rw-------. 1 root root 2622 Feb 20 10:15 id_rsa ---------------> it is a private key
+-rw-r--r--. 1 root root  588 Feb 20 10:15 id_rsa.pub ---------------> it is a public key
+[root@ip-172-31-26-214 .ssh]#
+
+here we need to take public key and open the id_rsa like below
+
+[root@ip-172-31-26-214 .ssh]# cat id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDB/MWWu4SSVh+yof23BjjBdCprX5HM+Bqvf+9Jx+TCfmgtt1y+sehgxVDNaHvWvH31gZzsXc+pb9Nky0rEozPJwVPHj8uYiAtTRKS1bdaiVz2UuB6qIq3+aVd/GAREMLwp8RWM8zjsyFE9SmkISJbYS5Oud7kdMgzI8OcGfUu3yGYnULE2Oc3WloDi3irtOHxrqo7A8QCvG6UX0hhc28z78atmguO18Kjy02P4RcRQYibbMHRDqFalB/wI4O0LwqnlS5DeTbK0kKIuyk6k/omq8UlVtp20m5I99rQw7KgvtcwB+GVz3kIk6fWFzN2DTTpyQKU99z7exwIPo1hhVrKlvP4vZI4DQb09hGRe7sgz4j2sTs8fgCoBiXCnp4VkFpsX+RUT3+C/NCeJxpGQ8hyC/1+SIH9N+dJeBHddjIX9L+j/FoXNiUzE6REEEE0sDMiQYktImKQ1m7wqDA7LKzrRdmBFP1Tg3BRCTP/DRA8b2VGFUnTtm/+qGlrYDzcs/K0= root@ip-172-31-26-214.ec2.internal
+[root@ip-172-31-26-214 .ssh]# 
+
+now go to github--------> go to settings ----------> on left side SSH & GPG Keys-----> open it--------> select new SSH key------->
+name:my-ec2-key ---------> do paste that copied the key here--------> add shh-key----------> it will ask github account credentials-----> key has been added
+
+it will not the credentials when this key has been present in github
+
+now go to github and select any one of the repository-------> select code --------> select SSH link copy and give command like below
+
+[root@ip-172-31-26-214 ~]# git clone git@github.com:pranay-devops666/microservices-project.git
+Cloning into 'microservices-project'...
+The authenticity of host 'github.com (140.82.112.4)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+remote: Enumerating objects: 83, done.
+Receiving objects: 100% (83/83), 30.04 KiB | 15.02 MiB/s, done.
+Resolving deltas: 100% (21/21), done.
+remote: Total 83 (delta 0), reused 0 (delta 0), pack-reused 83 (from 1)
+[root@ip-172-31-26-214 ~]#
+
+now create some new files in this repo
+
+* touch amazon aws 
+
+track now and do commit also
+after done commit do push the code
+
+* git push origin main(branch-name)     -----------------> command to push the code from git/local to github/central
+
+
+Now lets create some branches and do push into github/central
+
+* git checkout -b newbranchname         -----------------> command to create a new branch and switch to the new branch as well
+now we will do some files commit
+
+* touch google netflix
+
+track these files do push
+
+* git add *                       -----------------> command to track files
+* git commit -m "new files" .     -----------------> command to commit files . means hidden files also
